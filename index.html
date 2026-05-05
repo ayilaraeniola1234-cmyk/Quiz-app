@@ -1,0 +1,95 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>CSC 204 Chapter Quiz Project</title>
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+  <main class="shell">
+    <section class="dashboard">
+      <div class="dashboard-copy">
+        <p class="eyebrow">Official CSC 204 Quiz </p>
+        <h1>CSC 204 QUIZ PROJECT </h1>
+        <p class="lead">Practice Chapter 1 and Chapter 2 with timed questions, adaptive difficulty, progress tracking, and a final performance breakdown.</p>
+      </div>
+
+      <div class="stats-grid" id="statsGrid"></div>
+
+      <section class="chapter-grid" aria-label="Select chapter">
+        <article class="chapter-card">
+          <div>
+            <span class="chapter-label">Chapter 1</span>
+            <h2>Introduction to System Analysis and Design </h2>
+            <p>Start with Overview of Systems and Their Components.</p>
+          </div>
+          <button class="primary-btn" data-chapter="1">Start Chapter 1</button>
+        </article>
+
+        <article class="chapter-card accent">
+          <div>
+            <span class="chapter-label">Chapter 2</span>
+            <h2>Requirements Gathering </h2>
+            <p>Test Understanding Stakeholder Needs.</p>
+          </div>
+          <button class="primary-btn" data-chapter="2">Start Chapter 2</button>
+        </article>
+      </section>
+
+      <section class="history-panel">
+        <div class="section-heading">
+          <h2>Recent Attempts</h2>
+          <button class="ghost-btn" id="clearHistory">Clear</button>
+        </div>
+        <div id="historyList" class="history-list"></div>
+      </section>
+    </section>
+  </main>
+
+  <script>
+    const statsGrid = document.getElementById("statsGrid");
+    const historyList = document.getElementById("historyList");
+    const attempts = JSON.parse(localStorage.getItem("quizAttempts") || "[]");
+
+    function chapterBestScore(chapter) {
+      const chapterAttempts = attempts.filter(item => item.chapter === chapter);
+      if (!chapterAttempts.length) return "No attempt";
+      const best = Math.max(...chapterAttempts.map(item => item.percent));
+      return best + "% best";
+    }
+
+    statsGrid.innerHTML = `
+      <div class="stat-card"><span>Total Attempts</span><strong>${attempts.length}</strong></div>
+      <div class="stat-card"><span>Chapter 1</span><strong>${chapterBestScore(1)}</strong></div>
+      <div class="stat-card"><span>Chapter 2</span><strong>${chapterBestScore(2)}</strong></div>
+    `;
+
+    if (attempts.length === 0) {
+      historyList.innerHTML = `<p class="muted">No quiz attempt saved yet.</p>`;
+    } else {
+      historyList.innerHTML = attempts.slice(-5).reverse().map(item => `
+        <div class="history-item">
+          <div>
+            <strong>Chapter ${item.chapter}</strong>
+            <span>${item.date}</span>
+          </div>
+          <b>${item.score}/${item.total} (${item.percent}%)</b>
+        </div>
+      `).join("");
+    }
+
+    document.querySelectorAll("[data-chapter]").forEach(button => {
+      button.addEventListener("click", () => {
+        localStorage.setItem("selectedChapter", button.dataset.chapter);
+        window.location.href = "quiz.html";
+      });
+    });
+
+    document.getElementById("clearHistory").addEventListener("click", () => {
+      localStorage.removeItem("quizAttempts");
+      window.location.reload();
+    });
+  </script>
+</body>
+</html>

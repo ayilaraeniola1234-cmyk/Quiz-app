@@ -1,0 +1,55 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Chapter Quiz</title>
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+  <header class="exam-bar">
+    <a class="back-link" href="index.html">Dashboard</a>
+    <div>
+      <span id="examTitle">Chapter 1 Quiz </span>
+      <strong id="questionCounter">Question 1/30</strong>
+    </div>
+    <div class="timer" id="timer">00:20</div>
+  </header>
+
+  <div class="progress-track" aria-label="Quiz progress">
+    <div class="progress-fill" id="progressFill"></div>
+  </div>
+
+  <main class="exam-layout">
+    <aside class="question-map">
+      <div class="section-heading">
+        <h2>Question Map</h2>
+      </div>
+      <div id="questionMap" class="map-grid"></div>
+      <div class="legend">
+        <span><i class="dot current"></i>Current</span>
+        <span><i class="dot answered"></i>Answered</span>
+        <span><i class="dot skipped"></i>Skipped</span>
+      </div>
+    </aside>
+
+    <section class="question-panel" id="quizPanel">
+      <div class="question-meta">
+        <span id="difficultyBadge">Easy</span>
+        <span id="topicBadge">Topic</span>
+      </div>
+      <h1 id="questionText"></h1>
+      <div id="options" class="option-list"></div>
+      <div class="feedback" id="feedback"></div>
+
+      <div class="exam-actions">
+        <button class="ghost-btn" id="skipBtn">Skip</button>
+        <button class="primary-btn" id="nextBtn">Next Question</button>
+      </div>
+    </section>
+  </main>
+
+  <script src="data.js"></script>
+  <script src="script.js"></script>
+</body>
+</html>
